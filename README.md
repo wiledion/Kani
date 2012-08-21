@@ -1,11 +1,10 @@
-===================================================================
-								Kani
+*Kani*
 ===================================================================
 
 Presentation
 -------------------------------------------------------------------
 Kani is a 2D game written with the library Slick2D in Java. It take
-place in a world similar ancestral and precolonial Africa. The 
+ place in a world similar ancestral and precolonial Africa. The 
 gameplay is inspired from hack and slash and RPG games.
 
 Advancement
