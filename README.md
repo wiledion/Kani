@@ -13,14 +13,14 @@ some classes not yet implemented.
 Media ressources
 -------------------------------------------------------------------
 For the moment, I use sprites extracted from The Legend of Zelda: 
-A Link to the Past ( Super NES) et Pokémon Emerald ( Game Boy 
-Advance ). I hope to find a volunteer graphist interested by the 
+A Link to the Past (Super NES) et Pokï¿½mon Emerald (Game Boy 
+Advance). I hope to find a volunteer graphist interested by the 
 spirit of the project.
 
 
 License
 -------------------------------------------------------------------
-Copyright by Bonzi Wilédio, 2012, Licensed under the BSD New 
+Copyright by Bonzi Wilï¿½dio, 2012, Licensed under the BSD New 
 license.
 
 Website
