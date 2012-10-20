@@ -1,30 +1,7 @@
-/*
- * Copyright (c) 2012, Bonzi Wilédio
- * All rights reserved.
+/**
  * 
- * Redistribution and use in source and binary forms, with or without modification,
- * are permitted provided that the following conditions are met:
- * 
- *    - Redistributions of source code must retain the above copyright notice, this 
- * list of conditions and the following disclaimer.
- *    - Redistributions in binary form must reproduce the above copyright notice, 
- * this list of conditions and the following disclaimer in the documentation and/or
- * other materials provided with the distribution.
- *    - Neither the name of the copyright holder nor the names of its contributors 
- * may be used to endorse or promote products derived from this software without 
- * specific prior written permission.
- * 
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
- * ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED 
- * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE 
- * DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE 
- * FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL 
- * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR 
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER 
- * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR
- * TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF 
- * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
- * 
+ *
+ * @author WILEDION
  */
 
 package kani.state;
@@ -33,10 +10,10 @@ import java.util.ArrayList;
 import kani.monde.Fleche;
 import kani.monde.Heros;
 import kani.monde.Statue;
-import kani.utils.Block;
-import kani.utils.KaniMap;
 import kani.utils.Camera;
+import kani.utils.MessageBox;
 import kani.utils.Timer;
+import org.newdawn.slick.AngelCodeFont;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.Graphics;
@@ -49,8 +26,8 @@ import org.newdawn.slick.state.StateBasedGame;
 
 public class PlayState   extends LevelState {
 
-    Heros hkani ;
-
+    boolean intro;
+    
 
     public    PlayState( int stateID )   {
    
@@ -69,6 +46,13 @@ public class PlayState   extends LevelState {
     input = gc.getInput();
     cam = new Camera();
     level_reset();
+    intro = true;
+    AngelCodeFont font = new AngelCodeFont("demo2.fnt","demo2_00.tga");
+   msg = new MessageBox(150, 497,500,80);
+    msg.addText( new StringBuffer("Bonjour."
+                + "Je suis Kani, un des meilleurs archers du village."
+                + "Je me promenais tranquillement à la recher de gibier quand je me suis fait attaquer. "));
+   msg.start();
     
     }
 
@@ -89,18 +73,15 @@ public class PlayState   extends LevelState {
         
             hkani.dessiner();
         }
+    }
 
-        img.tablo.draw(0,450);
-        img.logo.draw(701,500);
-        hkani.draw_inf(gr);
-        KaniMap tmap = map.maptest;
-        Block entity1 = (Block) tmap.blocked.get(6);
-        entity1.draw(gr);
-                
-        }
-
+    img.tablo.draw(0,450);
+    img.logo.draw(701,500);
+    hkani.draw_inf(gr);
+    msg.draw(gc,gr);
+    
     if (paused)   {
-    gr.drawString("PAUSE", 350,500);}
+        gr.drawString("PAUSE", 350,500);}
     
     is_dead(sbg);
      
@@ -109,8 +90,8 @@ public class PlayState   extends LevelState {
     }
     int u = ennemis.size();
     gr.setColor(Color.white);
-    gr.drawString( "Monstres restants : " +  (ennemis.size()) + "",150,520 );
-    gr.drawString(" Niveau - test " , 350,550);
+    gr.drawString( "Monstres restants : " +  (ennemis.size()) + "",300,472 );
+    
     if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON))   {
         sbg.enterState(2);           
         level_reset();
@@ -121,45 +102,57 @@ public class PlayState   extends LevelState {
     public void update(GameContainer gc, StateBasedGame sbg, int delta) throws SlickException {
     
         if ( !victory)  {
+            
+            if (intro)   {
+                
+            }
         
             if ( !paused)  {
-                if (input.isKeyDown(Input.KEY_UP))  {
-                      hkani.update_up(); 
-                }
-
-                if (input.isKeyDown(Input.KEY_DOWN))  {
-                      hkani.update_down();
-                }
-                  
-                if (input.isKeyDown(Input.KEY_LEFT))  {
-                     hkani.update_left();
-                }
-                 
-                if (input.isKeyDown(Input.KEY_RIGHT))  {
-                     hkani.update_right();
-                }
-            
-                if (!input.isKeyDown(Input.KEY_UP) 
-            		 && !input.isKeyDown(Input.KEY_RIGHT) 
-            		 && !input.isKeyDown(Input.KEY_DOWN) 
-            		 && !input.isKeyDown(Input.KEY_LEFT) )  {
-                    hkani.update_nothing();
-                }
-
-                if (input.isKeyDown(Input.KEY_Q))  {
-                    hkani.update_tir();
-                }   
                 
-                if (input.isKeyDown(Input.KEY_P))  {
-                    if ( clock_pause.getElapsedTime() > 1000)
-                    {
-                        paused = true ;
-                        clock_pause.Reset();
+                if(!intro)   {
+                
+                    if (input.isKeyDown(Input.KEY_UP))  {
+                          hkani.update_up(); 
                     }
-                }             
-                heroColl_update();
-                monst_update();
-                map.maptest.update(cam);
+
+                    if (input.isKeyDown(Input.KEY_DOWN))  {
+                          hkani.update_down();
+                    }
+
+                    if (input.isKeyDown(Input.KEY_LEFT))  {
+                         hkani.update_left();
+                    }
+
+                    if (input.isKeyDown(Input.KEY_RIGHT))  {
+                         hkani.update_right();
+                    }
+
+                    if (!input.isKeyDown(Input.KEY_UP) 
+                             && !input.isKeyDown(Input.KEY_RIGHT) 
+                             && !input.isKeyDown(Input.KEY_DOWN) 
+                             && !input.isKeyDown(Input.KEY_LEFT) )  {
+                        hkani.update_nothing();
+                    }
+
+                    if (input.isKeyDown(Input.KEY_Q))  {
+                        hkani.update_tir();
+                    }   
+
+                    if (input.isKeyDown(Input.KEY_P))  {
+                        if ( clock_pause.getElapsedTime() > 1000)
+                        {
+                            paused = true ;
+                            clock_pause.Reset();
+                        }
+                    }             
+                    heroColl_update();
+                    monst_update();
+                    map.maptest.update(cam);
+                }
+                else   {
+               msg.update();
+                intro = !msg.is_ended();
+                }
             }
             else   if (input.isKeyDown(Input.KEY_P))  {
                 if ( clock_pause.getElapsedTime() > 1000)
