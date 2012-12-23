@@ -27,8 +27,6 @@ public class Main
          appkani.setDisplayMode(SCREEN_WIDTH, SCREEN_HEIGHT, false);
          appkani.setVSync(true);
          appkani.setShowFPS(false);
-//         appkani.setMaximumLogicUpdateInterval(19);
-//         appkani.setMinimumLogicUpdateInterval(21);
          appkani.setTargetFrameRate(30);
          appkani.setIcon("data/images/arc.png");
 

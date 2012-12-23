@@ -14,8 +14,8 @@ abstract public class
     int ID ;
     String nom;
     String description ;
-    int posx;
-    int posy;
+    float posx;
+    float posy;
     int midx;
     int midy;
 
@@ -25,8 +25,8 @@ abstract public class
     abstract void dessiner(float X, float Y);
     abstract void setX(float X);
     abstract void setY(float Y);
-    abstract int getX();
-    abstract int getY();
+    abstract float getX();
+    abstract float getY();
     abstract void set(float X, float Y);
     abstract void deplacer(float X, float Y);
 

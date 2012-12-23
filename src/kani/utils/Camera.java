@@ -11,8 +11,8 @@ import org.newdawn.slick.geom.Rectangle;
 
 public class Camera {
 
-    int camx;
-    int camy;
+    float camx;
+    float camy;
     int height_window;
     int width_window;
 
@@ -24,19 +24,19 @@ public class Camera {
 
     }
 
-    public int getCamx()  {
+    public float getCamx()  {
     return camx;
     }
 
-    public int getCamy()  {
+    public float getCamy()  {
     return camy;
     }
 
-    public void iterateCamx(int newx)  {
+    public void iterateCamx(float newx)  {
     camx += newx;
     }
 
-    public void iterateCamy(int newy)  {
+    public void iterateCamy(float newy)  {
     camy += newy;
     }
 

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import kani.data.ImgManager;
 import kani.data.MapManager;
 import kani.monde.Heros;
+import kani.monde.PersoScript;
 import kani.monde.Statue;
 import kani.utils.Camera;
 import kani.utils.MessageBox;

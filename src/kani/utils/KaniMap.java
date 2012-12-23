@@ -20,8 +20,8 @@ public class KaniMap extends TiledMap implements TileBasedMap {
     int nbTileWidth, nbTileHeight, nbLayer;
     int mapWidth;
     int  mapHeight;
-    int posx;
-    int posy;
+    float posx;
+    float posy;
     Polygon surface;
     private int square[] = {1,1,15,1,15,15,1,15}; 
     public static ArrayList<Object> aqua;
@@ -142,21 +142,21 @@ public class KaniMap extends TiledMap implements TileBasedMap {
     public void setposy(int newy)
     {posy = newy; }
 
-    public int getposx()
+    public float getposx()
     {return posx;}
 
-    public int getposy()
+    public float getposy()
     {return posy;}
     
     public Polygon get_surface()
     {return surface; }        
     
     public void render(Camera view)   {
-    render(- view.getCamx(), -view.getCamy());
+    render( (int)- view.getCamx(), (int)-view.getCamy());
     }
 
     public void render(Camera view, int layer)   {
-    render(- view.getCamx(), -view.getCamy(), layer);
+    render((int) - view.getCamx(), (int)-view.getCamy(), layer);
     }
     
     public void iterateposx(int newx)   {

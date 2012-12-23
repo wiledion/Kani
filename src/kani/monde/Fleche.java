@@ -1,10 +1,8 @@
 /**
- * 
+ *
  *
  * @author WILEDION
  */
-
-
 package kani.monde;
 
 import kani.data.ImgManager;
@@ -16,101 +14,81 @@ import org.newdawn.slick.geom.Polygon;
 public class Fleche extends Objet {
 
     Image isprite;
-    int vit;
     Polygon poly;
-
-    public static final int DIR_UP         = 0;
-    public static final int DIR_DOWN       = 1;
-    public static final int DIR_LEFT       = 2;
-    public static final int DIR_RIGHT      = 3;
-
+    double vel;
+    float velx;
+    float vely;
+    public static final double DIR_UP = Math.PI / 2;
+    public static final double DIR_DOWN = -Math.PI / 2;
+    public static final double DIR_LEFT = -Math.PI;
+    public static final double DIR_RIGHT = 0;
+    public static final double DIR_UPR = Math.PI / 4;
+    public static final double DIR_UPL = 3 * Math.PI / 4;
+    public static final double DIR_DOWNL = -3 * Math.PI / 4;
+    public static final double DIR_DOWNR = -Math.PI / 4;
     MapManager map = MapManager.get();
     ImgManager img = ImgManager.get();
-    int dir;
-        
-        
-    Fleche(int ndir, int nx, int ny)   {
-	
+    double dir;
+
+    Fleche(double ndir, float nx, float ny) {
+
         super();
-        vit = 8;
+        vel = 8. / 30;
         dir = ndir;
-        switch(dir)
-        {
-            case DIR_UP :
-                isprite = img.arrow_u;
-                break;
-            case DIR_DOWN :
-                isprite = img.arrow_d;
-                break;
-            case DIR_LEFT :
-                isprite = img.arrow_l;
-                break;
-            case DIR_RIGHT :
-                isprite = img.arrow_r;
-                break;
-        }
+        isprite = img.arrow_r;
         posx = nx;
         posy = ny;
         update_poly();
     }
 
-        
-    public void draw()  {
-    isprite.draw(posx + map.maptest.getposx(), posy + map.maptest.getposy());
-    }   
-        
-    void update()   {
-
-        switch(dir)
-        {
-            case DIR_UP :
-                posy -= vit ;
-                break;
-            case DIR_DOWN :
-                posy += vit ;
-                break;
-            case DIR_LEFT :
-                posx -= vit ;
-                break;
-            case DIR_RIGHT :
-                posx += vit ;
-                break;
-        }
-        update_poly();
-        
+    public void draw() {
+        isprite.setRotation(-(float) ((dir * 180) / Math.PI));
+        isprite.draw(posx + map.maptest.getposx(), posy + map.maptest.getposy());
     }
-    
-    public int get_dir()  {
-    
+
+    void update(float timeloop) {
+
+
+        velx = (float) (vel * Math.cos(dir));
+        vely = -(float) (vel * Math.sin(dir));
+
+        posx += velx * timeloop;
+        posy += vely * timeloop;
+
+
+        update_poly();
+
+    }
+
+    public double get_dir() {
+
         return dir;
     }
-        
-    public boolean in_map(Polygon surface)  {
 
-        return !surface.intersects(poly); 
+    public boolean in_map(Polygon surface) {
+
+        return !surface.intersects(poly);
     }
 
-    private void update_poly()  {
-        
+    private void update_poly() {
+
         int width = isprite.getWidth();
         int height = isprite.getHeight();
         poly = new Polygon(new float[]{
-			posx , posy,
-			posx + width, posy,
-			posx + width, posy + height,
-			posx , posy + height
-		});
+                    posx, posy,
+                    posx + width, posy,
+                    posx + width, posy + height,
+                    posx, posy + height
+                });
     }
 
-    public void draw_poly(Graphics gr)   {
-     
-        gr.draw(poly);
-    	 
-     }
-     
-     public Polygon get_poly()  {
-        return poly; 
-     }
-     
+    public void draw_poly(Graphics gr) {
 
+        gr.draw(poly);
+
+    }
+
+    public Polygon get_poly() {
+        return poly;
+    }
 }

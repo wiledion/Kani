@@ -57,7 +57,6 @@ public class MessageBox {
     StringBuffer word  = new StringBuffer();
     StringBuffer line  = new StringBuffer();
     
-    System.out.println(text.length());
     
     
     for(int i=0; i< text.length();i++ )
@@ -70,7 +69,6 @@ public class MessageBox {
         i++;
         }
         
-                System.out.println("Ligne : " + line);
         
         if( i< text.length())
         {
@@ -90,8 +88,6 @@ public class MessageBox {
         
         }
         
-        
-        System.out.println(str);
         
     }
     

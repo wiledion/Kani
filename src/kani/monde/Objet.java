@@ -38,11 +38,11 @@ void dessiner(float X, float Y)   {
  void deplacer(float X, float Y)   {
 }
 
- int getX()   {
+float getX()   {
 return posx;
  }
 
- int getY()   {
+ float getY()   {
 return posy;
  }
 

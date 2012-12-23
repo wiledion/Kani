@@ -19,9 +19,8 @@ public class Perso extends Chose {
     Animation sprite;
     int pv;
     int mana;
-    int dx;
-    int dy;
-    int vit;
+    float dx;
+    float dy;
     int height;
     int width;
     int level_width;
@@ -32,9 +31,6 @@ public class Perso extends Chose {
 
     public Perso()   {
         sprite = new Animation();
-        pv=100;
-        mana=100;
-        vit = 0;
 
      }
 
@@ -57,11 +53,11 @@ public class Perso extends Chose {
     public void setY(float Y)   {
     }
 
-    public int getX()   {
+    public float getX()   {
         return posx;
     }
 
-    public int getY()   {
+    public float getY()   {
         return posy;
     }
 
