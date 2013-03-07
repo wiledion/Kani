@@ -78,12 +78,12 @@ public class PersoScript extends Chose {
     }
 
     public void dessiner() {
-        sprite.draw(posx + map.maptest.getposx(), posy + map.maptest.getposy());
+        sprite.draw(posx + map.current.getposx(), posy + map.current.getposy());
     }
 
     public void dessiner(Graphics gr) {
-        sprite.draw(posx + map.maptest.getposx(), posy + map.maptest.getposy());
-        gr.fillOval(desx + map.maptest.getposx(), desy + map.maptest.getposy(), 10, 10);
+        sprite.draw(posx + map.current.getposx(), posy + map.current.getposy());
+        gr.fillOval(desx + map.current.getposx(), desy + map.current.getposy(), 10, 10);
         draw_poly(gr);
     }
 
@@ -202,7 +202,7 @@ public class PersoScript extends Chose {
     }
 
     public void draw_poly(Graphics gr) {
-        KaniMap tmap = map.maptest;
+        KaniMap tmap = map.current;
         for (int i = 0; i < tmap.blocked.size(); i++) {
             Block entity = (Block) tmap.blocked.get(i);
             Polygon polyt = entity.getPoly();
@@ -221,8 +221,8 @@ public class PersoScript extends Chose {
         boolean founded = false;
         while (!founded) {
             int k = r.nextInt(2);
-            posx = r.nextInt(map.maptest.getMapWidth());
-            posy = r.nextInt(map.maptest.getMapHeight());
+            posx = r.nextInt(map.current.getMapWidth());
+            posy = r.nextInt(map.current.getMapHeight());
             update_poly();
             if (!isColl()) {
                 founded = true;
@@ -242,7 +242,7 @@ public class PersoScript extends Chose {
 
     public boolean isColl() throws SlickException {
 
-        KaniMap tmap = map.maptest;
+        KaniMap tmap = map.current;
         for (int i = 0; i < tmap.blocked.size(); i++) {
             Block entity1 = (Block) tmap.blocked.get(i);
             if (poly.intersects(entity1.poly)) {
@@ -253,7 +253,7 @@ public class PersoScript extends Chose {
     }
 
     public boolean isColl(float tx, float ty) throws SlickException {
-        return map.maptest.isBlocked(tx, ty);
+        return map.current.isBlocked(tx, ty);
     }
 
     public void randomdes() throws SlickException {
@@ -264,9 +264,9 @@ public class PersoScript extends Chose {
             int k = r.nextInt(2);
 
             if (k == 1) {
-                desx = r.nextInt(map.maptest.getMapWidth());
+                desx = r.nextInt(map.current.getMapWidth());
             } else {
-                desy = r.nextInt(map.maptest.getMapHeight());
+                desy = r.nextInt(map.current.getMapHeight());
             }
             if (!isColl(desx, desy)) {
                 founded = true;

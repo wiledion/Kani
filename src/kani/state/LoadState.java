@@ -62,7 +62,7 @@ public class LoadState extends BasicGameState {
 
         if (started) {
             gr.drawString("LOADING COMPLETE",100,550);
-            sbg.enterState(3);
+            sbg.enterState(1);
 	}
 
     }

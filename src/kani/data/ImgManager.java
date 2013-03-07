@@ -50,10 +50,8 @@ public class ImgManager {
     public Image perso1;
     public Image perso2;
     
-    public Image arrow_u;
-    public Image arrow_d;
-    public Image arrow_l;
-    public Image arrow_r;
+    public Image arrow;
+
     
     public Image statue;
 
@@ -86,10 +84,8 @@ public class ImgManager {
     hero_ar2 = new Image("data/images/perso/hero/heroad2.png");
     hero_s = new Image("data/images/perso/hero/heros.png");
     
-    arrow_u = new Image("data/images/obj/arrow_u.png");
-    arrow_d = new Image("data/images/obj/arrow_d.png");
-    arrow_l = new Image("data/images/obj/arrow_l.png");
-    arrow_r = new Image("data/images/obj/arrow_r.png");
+
+    arrow = new Image("data/images/obj/arrow.png");
     
     statue = new Image("data/images/perso/hero/stat.png");
 

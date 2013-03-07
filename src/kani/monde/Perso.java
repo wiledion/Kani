@@ -27,6 +27,7 @@ public class Perso extends Chose {
     int level_height;
     int mode;
     Polygon surface;
+    boolean is_dead ;
 
 
     public Perso()   {

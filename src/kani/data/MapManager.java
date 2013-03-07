@@ -13,9 +13,9 @@ import org.newdawn.slick.SlickException;
 public class MapManager {
 
     private static MapManager mapmanager = new MapManager();
-    public KaniMap maptest;
-
-
+    public KaniMap current;
+    
+    
     private MapManager (){
         super();
     }
@@ -26,12 +26,28 @@ public class MapManager {
 
 
     public void load() throws SlickException  {
-        maptest = new KaniMap("data/map/demo2.tmx");
+    
+
+        
+     //   level3 = new KaniMap("data/map/level3.tmx");
+      //  level4 = new KaniMap("data/map/level4.tmx");
     }
 
     public class view {
 
     }
+    
 
+            
+        
+    
+    
+
+    
+    public void setMap(String path_map) throws SlickException{
+
+        current = new KaniMap(path_map);
+        }
+    
 }
 

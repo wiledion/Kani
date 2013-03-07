@@ -27,7 +27,7 @@ public class AppKani extends StateBasedGame
         this.addState(new IntroState(INTROSTATE));
         this.addState(new MenuState(MENUSTATE));
         this.addState(new PlayState(PLAYSTATE));
-        this.enterState(LOADSTATE);
+        this.enterState(PLAYSTATE);
 
     }
 

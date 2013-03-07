@@ -25,15 +25,14 @@ import org.newdawn.slick.geom.Rectangle;
  */
 public class Heros extends Perso {
 
-    public static final double DIR_UP = Math.PI/2;
-    public static final double DIR_DOWN = -Math.PI/2;
+    public static final double DIR_UP = Math.PI / 2;
+    public static final double DIR_DOWN = -Math.PI / 2;
     public static final double DIR_LEFT = -Math.PI;
     public static final double DIR_RIGHT = 0;
-    public static final double DIR_UPR = Math.PI/4;
-    public static final double DIR_UPL = 3*Math.PI/4;
-    public static final double DIR_DOWNL = -3*Math.PI/4;
-    public static final double DIR_DOWNR = -Math.PI/4;
-    
+    public static final double DIR_UPR = Math.PI / 4;
+    public static final double DIR_UPL = 3 * Math.PI / 4;
+    public static final double DIR_DOWNL = -3 * Math.PI / 4;
+    public static final double DIR_DOWNR = -Math.PI / 4;
     AnimManager anim = AnimManager.get();
     double dir;
     float vel;
@@ -52,10 +51,10 @@ public class Heros extends Perso {
 
     public Heros() {
         super();
-        
-        vel = (float) (4./30);
+
+        vel = (float) (4. / 30);
         pv = 100;
-        dir =  DIR_DOWN;
+        dir = DIR_DOWN;
 
 
         all_arrow = new ArrayList<Fleche>();
@@ -69,7 +68,7 @@ public class Heros extends Perso {
         height = move.getHeight();
         width = move.getWidth();
         posx = 100;
-        posy = 100;
+        posy = 80;
 
         bandeh = new Rectangle(0, 100, 800, 250);
         bandev = new Rectangle(150, 0, 500, 450);
@@ -117,55 +116,56 @@ public class Heros extends Perso {
 
     }
 
-
     public void update_nothing(float timeloop) {
         sprite = stand;
         update_all(timeloop);
     }
-    
-    
-    public void update_move(float timeloop) throws SlickException{
-    
-                float ox = posx;
-                float oy = posy;
+
+    public void set_stand() {
+        sprite = stand;
+
+    }
+
+    public void update_move(float timeloop) throws SlickException {
+
+        float ox = posx;
+        float oy = posy;
         velx = (float) (vel * Math.cos(dir));
         vely = -(float) (vel * Math.sin(dir));
-        
-            posx += velx*timeloop ;
-            posy += vely*timeloop ;
-            
-            sprite = move;
-            update_poly();
-            
-           if (isColl() || !inMap()) {
-                posx = ox;
-                posy = oy;
-                sprite = stand;
-                update_poly();
-            }
-           
-           // Déplacement de la camera en fonction du deplacement
-            
-            if (oy > posy && view.getCamy() >= 0 && posy < level_height - 200) {
-                view.iterateCamy(vely*timeloop);
-            }
-			
-            if (oy < posy && view.getCamy() + view.getHeight() < level_height && posy > 200) {
-                view.iterateCamy(+vely*timeloop);
-            }
-			
-            if (ox > posx && view.getCamx() > 0 && posx < level_width - 250) {
-                view.iterateCamx(velx*timeloop);
-            }
-			
-            if (ox < posx && view.getCamx() + view.getWidth() < level_width && posx > 250) {
-                view.iterateCamx(+velx*timeloop);
-            }
-           
-            update_all(timeloop);
-    }
-    
 
+        posx += velx * timeloop;
+        posy += vely * timeloop;
+
+        sprite = move;
+        update_poly();
+
+        if (isColl() || !inMap()) {
+            posx = ox;
+            posy = oy;
+            sprite = stand;
+            update_poly();
+        }
+
+        // Déplacement de la camera en fonction du deplacement
+
+        if (oy > posy && view.getCamy() >= 0 && posy < level_height - 200) {
+            view.iterateCamy(vely * timeloop);
+        }
+
+        if (oy < posy && view.getCamy() + view.getHeight() < level_height && posy > 200) {
+            view.iterateCamy(+vely * timeloop);
+        }
+
+        if (ox > posx && view.getCamx() > 0 && posx < level_width - 250) {
+            view.iterateCamx(velx * timeloop);
+        }
+
+        if (ox < posx && view.getCamx() + view.getWidth() < level_width && posx > 250) {
+            view.iterateCamx(+velx * timeloop);
+        }
+
+        update_all(timeloop);
+    }
 
     public void update_all(float looptime) {
 
@@ -182,7 +182,7 @@ public class Heros extends Perso {
 
     public void update_tir() {
 
-        if (clock.getElapsedTime() > 400) {
+        if (clock.getElapsedTime() > 300) {
             all_arrow.add(new Fleche(dir, posx + width / 2, posy + height / 2));
 
             if (dir == DIR_UP) {
@@ -201,18 +201,24 @@ public class Heros extends Perso {
 
     }
 
+    public void add_tir(double dir, float decx, float decy) {
+        all_arrow.add(new Fleche(dir, posx + width / 2 + decx, posy + height / 2 + decy));
+
+
+    }
+
     public boolean isBlocked() {
-        return map.maptest.isStop(midx, midy);
+        return map.current.isStop(midx, midy);
 
     }
 
     public void update_poly() {
         poly = new Polygon(new float[]{
-                    posx, posy,
-                    posx + width, posy,
-                    posx + width, posy + height,
-                    posx, posy + height
-                });
+            posx, posy,
+            posx + width, posy,
+            posx + width, posy + height,
+            posx, posy + height
+        });
 
 
 
@@ -223,17 +229,17 @@ public class Heros extends Perso {
     }
 
     public void draw_poly(Graphics gr) {
-        KaniMap tmap = map.maptest;
+        /*   KaniMap tmap = map.current;
 
-        /*	for (int i = 0; i < tmap.blocked.size(); i++) {
+         for (int i = 0; i < tmap.blocked.size(); i++) {
          Block entity = (Block) tmap.blocked.get(i);
   		
          Polygon polyt = entity.getPoly();
   		
   			
-         entity.draw(gr);} */
+         entity.draw(gr);} 
 
-        gr.draw(poly);
+         gr.draw(poly);*/
 
 
         for (int i = 0; i < all_arrow.size(); i++) {
@@ -264,7 +270,7 @@ public class Heros extends Perso {
 
     public boolean isColl() throws SlickException {
 
-        KaniMap tmap = map.maptest;
+        KaniMap tmap = map.current;
 
         for (int i = 0; i < tmap.blocked.size(); i++) {
             Block entity1 = (Block) tmap.blocked.get(i);
@@ -274,16 +280,15 @@ public class Heros extends Perso {
         }
         return false;
     }
-    
-    public boolean inMap() 
-            
-    {
-    if (posx + width > level_width || posx < 0 || posy + height > level_height  || posy < 0)
-        return false ;
-    
-    return true ;
-    
-    
+
+    public boolean inMap() {
+        if (posx + width > level_width || posx < 0 || posy + height > level_height || posy < 0) {
+            return false;
+        }
+
+        return true;
+
+
     }
 
     public void addTo_pv(int n) {
@@ -304,22 +309,23 @@ public class Heros extends Perso {
     }
 
     public void setDir(int vx, int vy) {
-       
-        if( vx ==1 && vy == 1)
-            dir = DIR_DOWNR ;
-        else if( vx ==1 && vy == -1)
-            dir = DIR_UPR ;
-        else if( vx ==-1 && vy == -1)
-            dir = DIR_UPL ;
-        else if( vx ==-1 && vy == 1)
-            dir = DIR_DOWNL ;
-        else if( vx == 1)
-            dir = DIR_RIGHT ;
-        else if( vx ==-1)
-            dir = DIR_LEFT ;
-        else if( vy ==1 )
-            dir = DIR_DOWN ;
-        else if( vy == -1)
-            dir = DIR_UP ;
+
+        if (vx == 1 && vy == 1) {
+            dir = DIR_DOWNR;
+        } else if (vx == 1 && vy == -1) {
+            dir = DIR_UPR;
+        } else if (vx == -1 && vy == -1) {
+            dir = DIR_UPL;
+        } else if (vx == -1 && vy == 1) {
+            dir = DIR_DOWNL;
+        } else if (vx == 1) {
+            dir = DIR_RIGHT;
+        } else if (vx == -1) {
+            dir = DIR_LEFT;
+        } else if (vy == 1) {
+            dir = DIR_DOWN;
+        } else if (vy == -1) {
+            dir = DIR_UP;
+        }
     }
 }

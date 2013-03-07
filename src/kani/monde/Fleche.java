@@ -35,7 +35,7 @@ public class Fleche extends Objet {
         super();
         vel = 8. / 30;
         dir = ndir;
-        isprite = img.arrow_r;
+        isprite = img.arrow;
         posx = nx;
         posy = ny;
         update_poly();
@@ -43,7 +43,7 @@ public class Fleche extends Objet {
 
     public void draw() {
         isprite.setRotation(-(float) ((dir * 180) / Math.PI));
-        isprite.draw(posx + map.maptest.getposx(), posy + map.maptest.getposy());
+        isprite.draw(posx + map.current.getposx(), posy + map.current.getposy());
     }
 
     void update(float timeloop) {
@@ -51,11 +51,8 @@ public class Fleche extends Objet {
 
         velx = (float) (vel * Math.cos(dir));
         vely = -(float) (vel * Math.sin(dir));
-
         posx += velx * timeloop;
         posy += vely * timeloop;
-
-
         update_poly();
 
     }
@@ -75,11 +72,11 @@ public class Fleche extends Objet {
         int width = isprite.getWidth();
         int height = isprite.getHeight();
         poly = new Polygon(new float[]{
-                    posx, posy,
-                    posx + width, posy,
-                    posx + width, posy + height,
-                    posx, posy + height
-                });
+            posx, posy,
+            posx + width, posy,
+            posx + width, posy + height,
+            posx, posy + height
+        });
     }
 
     public void draw_poly(Graphics gr) {
