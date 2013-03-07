@@ -25,4 +25,4 @@ license.
 
 Website
 -------------------------------------------------------------------
-http://wiledion.allalla.com/category/3_programmation/kani
+http://www.wiledion.com/category/3_programmation/kani
