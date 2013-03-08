@@ -6,9 +6,11 @@
 package kani.state;
 
 import java.util.ArrayList;
+import kani.monde.Bird;
 import kani.monde.Fleche;
 import kani.monde.Heros;
-import kani.monde.PersoScript;
+import kani.monde.Monst;
+import kani.monde.Perso;
 import kani.monde.Statue;
 import kani.utils.Camera;
 import kani.utils.Combos;
@@ -45,12 +47,14 @@ public class PlayState extends LevelState {
     String level_name;
     int number_enn;
     PythonInterpreter interp = new PythonInterpreter();
+    PythonInterpreter interp2 = new PythonInterpreter();
     KaniMap kmap;
     Combos kcombo;
     int id_level = 1;
+    int enn_config[][];
+    int size_cfg;
 
     public PlayState(int stateID) {
-
         super();
         this.stateID = stateID;
     }
@@ -60,9 +64,7 @@ public class PlayState extends LevelState {
     }
 
     public void init(GameContainer gc, StateBasedGame sbg) throws SlickException {
-
         start_level(gc, sbg, "level1");
-
     }
 
     public void start_level(GameContainer gc, StateBasedGame sbg, String level) throws SlickException {
@@ -86,17 +88,38 @@ public class PlayState extends LevelState {
 
     }
 
+    private void level_reset() throws SlickException {
+
+        hkani = new Heros();
+        running = true;
+        paused = false;
+        victory = false;
+        ennemis = new ArrayList<Monst>();
+        init_enn();
+        clock_pause = new Timer();
+        clock_pause.Reset();
+        cam.setCam(0, 0);
+        hkani.setMap(map.current);
+        hkani.setCamera(cam);
+    }
+
     public void render(GameContainer gc, StateBasedGame sbg, Graphics gr) throws SlickException {
 
         for (int layer = 0; layer <= 2; layer++) {
             map.current.render(cam, layer);
-            if (layer == 1) {
-                for (int i = 0; i < ennemis.size(); i++) {
-                    Statue kmonst = ennemis.get(i);
+
+            for (int i = 0; i < ennemis.size(); i++) {
+
+                Monst kmonst = (Monst) ennemis.get(i);
+                if (kmonst.getLayer() == layer) {
                     kmonst.dessiner(gr);
                 }
+            }
+
+            if (layer == 1) {
                 hkani.dessiner();
             }
+
         }
 
         img.tablo.draw(0, 450);
@@ -104,10 +127,8 @@ public class PlayState extends LevelState {
         hkani.draw_inf(gr);
         msg.draw(gc, gr);
         if (paused) {
-            gr.drawString("PAUSE", 350, 500);
+            gr.drawString("PAUSE", 350, 420);
         }
-
-
 
         if (victory) {
             gr.drawString(end_msg, 350, 500);
@@ -144,7 +165,6 @@ public class PlayState extends LevelState {
                 if (msg.iswait() && input.isKeyDown(Input.KEY_SPACE)) {
                     msg.set_wait_false();
                 }
-
                 if (msg.is_ended() && input.isKeyDown(Input.KEY_SPACE)) {
                     id_level++;
                     if (id_level != 5) {
@@ -162,15 +182,12 @@ public class PlayState extends LevelState {
                 if (msg.iswait() && input.isKeyDown(Input.KEY_SPACE)) {
                     msg.set_wait_false();
                 }
-
                 if (msg.is_ended() && input.isKeyDown(Input.KEY_SPACE)) {
                     id_level = 1;
                     start_level(gc, sbg, "level" + String.valueOf(id_level));
                     sbg.enterState(2);
-
                 }
             } else {
-
 
                 if (!input.isKeyDown(Input.KEY_UP)
                         && !input.isKeyDown(Input.KEY_RIGHT)
@@ -178,65 +195,43 @@ public class PlayState extends LevelState {
                         && !input.isKeyDown(Input.KEY_LEFT)) {
                     hkani.update_nothing(looptime);
 
-
                 } else {
                     int vx = 0;
                     int vy = 0;
 
-
-
                     if (input.isKeyDown(Input.KEY_UP)) {
                         vy--;
                     }
-
                     if (input.isKeyDown(Input.KEY_DOWN)) {
                         vy++;
                     }
-
                     if (input.isKeyDown(Input.KEY_LEFT)) {
                         vx--;
                     }
-
                     if (input.isKeyDown(Input.KEY_RIGHT)) {
                         vx++;
                     }
 
-
-
                     // Combos verifications
-
-
-
                     if (input.isKeyPressed(Input.KEY_UP)) {
                         kcombo.add(Input.KEY_UP, comboclock);
                     }
-
                     if (input.isKeyPressed(Input.KEY_DOWN)) {
                         kcombo.add(Input.KEY_DOWN, comboclock);
                     }
-
                     if (input.isKeyPressed(Input.KEY_LEFT)) {
                         kcombo.add(Input.KEY_LEFT, comboclock);
                     }
-
                     if (input.isKeyPressed(Input.KEY_RIGHT)) {
                         kcombo.add(Input.KEY_RIGHT, comboclock);
                     }
-
-
-
-
-
-
                     hkani.setDir(vx, vy);
                     hkani.update_move(looptime);
                 }
 
-
                 if (input.isKeyPressed(Input.KEY_Q)) {
                     kcombo.add(Input.KEY_Q, comboclock);
                 }
-
 
                 if (input.isKeyDown(Input.KEY_P)) {
                     if (clock_pause.getElapsedTime() > 1000) {
@@ -254,26 +249,21 @@ public class PlayState extends LevelState {
                     is_dead = true;
                     msg.clean();
                     msg.addText(new StringBuffer(dead_msg));
-
                 }
 
                 if (ennemis.isEmpty()) {
                     end = true;
                     msg.clean();
                     msg.addText(new StringBuffer(end_msg));
-
                     hkani.update_nothing(looptime);
                 }
-
             }
-
         } else if (input.isKeyDown(Input.KEY_P)) {
             if (clock_pause.getElapsedTime() > 1000) {
                 paused = false;
                 clock_pause.Reset();
             }
         }
-
     }
 
     private String String(boolean band) {
@@ -288,7 +278,7 @@ public class PlayState extends LevelState {
     private void heroColl_update() {
         Polygon hero = hkani.get_poly();
         for (int i = 0; i < ennemis.size(); i++) {
-            Statue kmonst = ennemis.get(i);
+            Perso kmonst = ennemis.get(i);
             if (hero.intersects(kmonst.get_poly())) {
                 hkani.addTo_pv(-1);
                 break;
@@ -300,28 +290,10 @@ public class PlayState extends LevelState {
         return is_dead;
     }
 
-    private void level_reset() throws SlickException {
-
-        hkani = new Heros();
-        running = true;
-        paused = false;
-        victory = false;
-        ennemis = new ArrayList<Statue>();
-        for (int i = 0; i < number_enn; i++) {
-            ennemis.add(new Statue());
-            ennemis.get(i).setMap(map.current);
-        }
-        clock_pause = new Timer();
-        clock_pause.Reset();
-        cam.setCam(0, 0);
-        hkani.setMap(map.current);
-        hkani.setCamera(cam);
-    }
-
     private void monst_update() throws SlickException {
 
         for (int i = 0; i < ennemis.size(); i++) {
-            Statue kmonst = ennemis.get(i);
+            Monst kmonst = (Monst) ennemis.get(i);
             kmonst.update_nothing(looptime);
             float hx = hkani.getX();
             float hy = hkani.getY();
@@ -334,7 +306,7 @@ public class PlayState extends LevelState {
             ArrayList<Fleche> all_arrow = hkani.get_all_arrow();
             for (int i = 0; i < ennemis.size() && ennemis.size() != 0; i++) {
                 for (int j = 0; j < all_arrow.size() && ennemis.size() != 0; j++) {
-                    Statue kmonst = ennemis.get(i);
+                    Monst kmonst = (Monst) ennemis.get(i);
                     Fleche karrow = all_arrow.get(j);
                     Shape enn_poly = kmonst.get_poly();
                     Shape arr_poly = karrow.get_poly();
@@ -371,5 +343,36 @@ public class PlayState extends LevelState {
 
     public void set_enn(int numb_enn) {
         number_enn = numb_enn;
+
+
+    }
+
+    public void set_enn_config(int nconfig[][], int size) {
+
+        enn_config = nconfig;
+        size_cfg = size;
+
+    }
+
+    void init_enn() throws SlickException {
+
+        for (int i = 0; i < size_cfg; i++) {
+            switch (enn_config[i][0]) {
+
+                case 1:
+                    for (int j = 0; j < enn_config[i][1]; j++) {
+                        ennemis.add(new Statue());
+                        ennemis.get(j).setMap(map.current);
+                    }
+                    break;
+
+                case 2:
+                    for (int j = 0; j < enn_config[i][1]; j++) {
+                        ennemis.add(new Bird());
+                        ennemis.get(j).setMap(map.current);
+                    }
+                    break;
+            }
+        }
     }
 }

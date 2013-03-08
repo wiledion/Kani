@@ -54,6 +54,11 @@ public class ImgManager {
 
     
     public Image statue;
+    
+    public Image birdu;
+    public Image birdd;
+    public Image birdl;
+    public Image birdr;
 
     public Image tablo;
    
@@ -88,8 +93,15 @@ public class ImgManager {
     arrow = new Image("data/images/obj/arrow.png");
     
     statue = new Image("data/images/perso/hero/stat.png");
+    
+    
+    birdu = new Image("data/images/perso/hero/birdu.png");    
+    birdd = new Image("data/images/perso/hero/birdd.png");    
+    birdl = new Image("data/images/perso/hero/birdl.png");    
+    birdr = new Image("data/images/perso/hero/birdr.png");
 
     tablo = new Image("data/images/tablo.png");
+    
 
     }
 

@@ -17,10 +17,17 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Shape;
 
-public class Statue extends Perso {
+public class Statue extends Monst {
 
     AnimManager anim = AnimManager.get();
-    Animation move;
+    Animation move_up;
+    Animation move_down;
+    Animation move_left;
+    Animation move_right;
+    Animation stand_up;
+    Animation stand_down;
+    Animation stand_left;
+    Animation stand_right;
     Animation stand;
     MapManager map = MapManager.get();
     Polygon poly;
@@ -41,18 +48,19 @@ public class Statue extends Perso {
         super();
         r = new Random();
         vel = (float) (2. / 30);
-        pv=20 ;
-        move = anim.stat;
+        pv = 20;
+        layer = 1;
+        move_up = anim.stat;
         stand = anim.stat;
         sprite = stand;
-        height = move.getHeight();
-        width = move.getWidth();
+        height = move_up.getHeight();
+        width = move_up.getWidth();
         poly = new Polygon(new float[]{
-                    posx, posy,
-                    posx + width, posy,
-                    posx + width, posy + height,
-                    posx, posy + height
-                });
+            posx, posy,
+            posx + width, posy,
+            posx + width, posy + height,
+            posx, posy + height
+        });
 
         randompos();
 
@@ -78,18 +86,6 @@ public class Statue extends Perso {
 
     }
 
-    public void update_up() throws SlickException {
-    }
-
-    public void update_down() throws SlickException {
-    }
-
-    public void update_left() throws SlickException {
-    }
-
-    public void update_right() throws SlickException {
-    }
-
     public void update_nothing(float looptime) throws SlickException {
 
         float ox = posx;
@@ -100,7 +96,6 @@ public class Statue extends Perso {
 
         dx = velx * looptime;
         dy = vely * looptime;
-
 
         if (ifwait == true) {
             if (clock.getElapsedTime() > 1000) {
@@ -122,7 +117,6 @@ public class Statue extends Perso {
                     ifwait = false;
                 }
 
-
                 if (isColl()) {
                     clock_coll.Reset();
                 }
@@ -137,22 +131,21 @@ public class Statue extends Perso {
         }
 
     }
-    
-    public void update_hit(){
-    
-    pv-=10;
-    if (pv <= 0) {
-        is_dead = true ;
+
+    public void update_hit() {
+
+        pv -= 10;
+        if (pv <= 0) {
+            is_dead = true;
+        }
+
+
     }
-        
-    
-    }
-    
-    public boolean is_dead(){
-        
+
+    public boolean is_dead() {
+
         return is_dead;
     }
-    
 
     void randomdes() throws SlickException {
         boolean founded = false;
@@ -202,11 +195,11 @@ public class Statue extends Perso {
 
     public void update_poly() {
         poly = new Polygon(new float[]{
-                    posx, posy,
-                    posx + width, posy,
-                    posx + width, posy + height,
-                    posx, posy + height
-                });
+            posx, posy,
+            posx + width, posy,
+            posx + width, posy + height,
+            posx, posy + height
+        });
     }
 
     public void draw_poly(Graphics gr) {
@@ -265,9 +258,8 @@ public class Statue extends Perso {
     public double dist_rest() {
         return Math.hypot(desx - posx, desy - posy);
     }
-    
+
     public void update_dir() {
         dir = (Math.atan2(desy - posy, desx - posx));
     }
-    
 }

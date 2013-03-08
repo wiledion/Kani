@@ -1,27 +1,25 @@
 /**
- * 
+ *
  *
  * @author WILEDION
  */
-
 package kani.data;
 
 import org.newdawn.slick.Animation;
 import org.newdawn.slick.SlickException;
 
-
 public class AnimManager {
 
     private static AnimManager animmanager = new AnimManager();
 
-    private AnimManager ()
-    {super();}
+    private AnimManager() {
+        super();
+    }
 
-    public static AnimManager get()
-    {return animmanager; }
-
+    public static AnimManager get() {
+        return animmanager;
+    }
     ImgManager img = ImgManager.get();
-
     public Animation hero_m;
     public Animation hero_s;
     public Animation hero_au;
@@ -29,36 +27,49 @@ public class AnimManager {
     public Animation hero_al;
     public Animation hero_ar;
     public Animation stat;
+    public Animation birdu;
+    public Animation birdd;
+    public Animation birdl;
+    public Animation birdr;
 
- public void load() throws SlickException
-    {
+    public void load() throws SlickException {
 
-     hero_m = new Animation();
-     hero_s = new Animation();
-     stat = new Animation();
-     
-     hero_au = new Animation();
-     hero_ad = new Animation();
-     hero_al = new Animation();
-     hero_ar = new Animation();
+        hero_m = new Animation();
+        hero_s = new Animation();
 
-     hero_m.addFrame(img.hero_w1, 200);
-     hero_m.addFrame(img.hero_w2, 200);
-     hero_m.addFrame(img.hero_w3, 200);
+        hero_au = new Animation();
+        hero_ad = new Animation();
+        hero_al = new Animation();
+        hero_ar = new Animation();
 
-     hero_au.addFrame(img.hero_au1, 200);
-     hero_au.addFrame(img.hero_au2, 200);
-     hero_ad.addFrame(img.hero_ad1, 200);
-     hero_ad.addFrame(img.hero_ad1, 200);
-     hero_al.addFrame(img.hero_al1, 200);
-     hero_al.addFrame(img.hero_al1, 200);
-     hero_ar.addFrame(img.hero_ar1, 200);
-     hero_ar.addFrame(img.hero_ar1, 200);
-     
-     hero_s.addFrame(img.hero_s, 200);
-     
-     stat.addFrame(img.statue, 200);
+        stat = new Animation();
+        birdu = new Animation();
+        birdd = new Animation();
+        birdl = new Animation();
+        birdr = new Animation();
+
+        hero_m.addFrame(img.hero_w1, 200);
+        hero_m.addFrame(img.hero_w2, 200);
+        hero_m.addFrame(img.hero_w3, 200);
+
+        hero_au.addFrame(img.hero_au1, 200);
+        hero_au.addFrame(img.hero_au2, 200);
+        hero_ad.addFrame(img.hero_ad1, 200);
+        hero_ad.addFrame(img.hero_ad1, 200);
+        hero_al.addFrame(img.hero_al1, 200);
+        hero_al.addFrame(img.hero_al1, 200);
+        hero_ar.addFrame(img.hero_ar1, 200);
+        hero_ar.addFrame(img.hero_ar1, 200);
+
+        hero_s.addFrame(img.hero_s, 200);
+
+        stat.addFrame(img.statue, 200);
+
+        birdu.addFrame(img.birdu, 200);
+        birdd.addFrame(img.birdd, 200);
+        birdl.addFrame(img.birdl, 200);
+        birdr.addFrame(img.birdr, 200);
+
 
     }
-
 }

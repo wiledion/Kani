@@ -1,15 +1,16 @@
 /**
- * 
+ *
  *
  * @author WILEDION
  */
-
 package kani.state;
 
 import java.util.ArrayList;
 import kani.data.ImgManager;
 import kani.data.MapManager;
 import kani.monde.Heros;
+import kani.monde.Monst;
+import kani.monde.Perso;
 import kani.monde.PersoScript;
 import kani.monde.Statue;
 import kani.utils.Camera;
@@ -22,10 +23,9 @@ import org.newdawn.slick.SlickException;
 import org.newdawn.slick.state.BasicGameState;
 import org.newdawn.slick.state.StateBasedGame;
 
-
 public class LevelState extends BasicGameState {
-    
-    Heros hkani ;
+
+    Heros hkani;
     int stateID = -1;
     boolean running;
     boolean paused;
@@ -34,7 +34,7 @@ public class LevelState extends BasicGameState {
     ImgManager img = ImgManager.get();
     Input input;
     Camera cam;
-    public  ArrayList<Statue> ennemis;
+    public ArrayList<Monst> ennemis;
     Timer clock_pause;
     MessageBox msg;
 
@@ -45,17 +45,13 @@ public class LevelState extends BasicGameState {
 
     @Override
     public void init(GameContainer container, StateBasedGame game) throws SlickException {
-      
     }
 
     @Override
     public void render(GameContainer container, StateBasedGame game, Graphics g) throws SlickException {
-       
     }
 
     @Override
     public void update(GameContainer container, StateBasedGame game, int delta) throws SlickException {
-       
     }
-    
 }
